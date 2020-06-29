@@ -11,7 +11,13 @@ class Player {
 
     // The y position never changes, so we don't need to store it in a property. It represents the y position of the top of the
     // hamburger. The y position is the distance from the top margin of the browsing area.
-    const y = GAME_HEIGHT - PLAYER_HEIGHT - 10;
+    const y = GAME_HEIGHT - PLAYER_HEIGHT; // GAME_HEIGHT - PLAYER_HEIGHT - 10
+
+    // NEW - y position not visible in object properties
+    this.y = y;
+
+    // NEW - Player lives
+    this.lives = LIVES;
 
     // We create a DOM node. We will be updating the DOM node every time we move the player, so we store a reference to the
     // DOM node in a property.
@@ -41,4 +47,19 @@ class Player {
     }
     this.domElement.style.left = `${this.x}px`;
   }
+
+  // // NEW - Allow player to shoot enemy
+  // shootEnemy() {
+  //   // Create the disk element and shoot towards enemy
+  //   this.disk = document.createElement('img');
+  //   this.disk.src = 'images/disk.png';
+  //   this.disk.style.position = 'absolute';
+  //   this.disk.style.left = `${this.x + 35}px`;
+  //   this.disk.style.top = ` ${this.y}px`;
+  //   this.disk.style.zIndex = '10';
+  //   gameEngine.root.appendChild(this.disk);
+
+  //   console.log('Shoot!');
+  // }
+  
 }

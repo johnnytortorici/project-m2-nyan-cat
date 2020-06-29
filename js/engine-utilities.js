@@ -40,15 +40,27 @@ const nextEnemySpot = (enemies) => {
 // The parameter represents the DOM node to which we will add the background
 const addBackground = (root) => {
   // We create a new img DOM node.
-  const bg = document.createElement('img');
+  const bg = document.createElement('div'); // const bg = document.createElement('img');
 
   // We set its src attribute and the height and width CSS attributes
-  bg.src = 'images/stars.png';
+  // bg.src = GAME_BG;
   bg.style.height = `${GAME_HEIGHT}px`;
   bg.style.width = `${GAME_WIDTH}px`;
+  bg.className = 'grid';
 
-  // We add it to the root DOM node
+ // We add it to the root DOM node
   root.append(bg);
+
+  // Create grid
+  const GRID_ROWS = 5;
+  const GRID_COLS = 5;
+  for (let i = 0; i < GRID_ROWS; i++) {
+    for (let j = 0; j < GRID_COLS; j++) {
+      let box = document.createElement('div');
+      box.className = 'box';
+      bg.appendChild(box);
+    }
+  }
 
   // We don't want the enemies to go beyond the lower edge of the image
   // so we place a white div to hide the enemies after they reach the bottom.
@@ -61,6 +73,52 @@ const addBackground = (root) => {
   whiteBox.style.top = `${GAME_HEIGHT}px`;
   whiteBox.style.height = `${ENEMY_HEIGHT}px`;
   whiteBox.style.width = `${GAME_WIDTH}px`;
-  whiteBox.style.background = '#fff';
+  whiteBox.style.background = '#202639';
   root.append(whiteBox);
 };
+
+// NEW - Display player lives
+showPlayerLives = (player) => {
+  let header = document.querySelector('#header');
+  let playerLives = document.createElement('div');
+  playerLives.className = 'lives';
+  playerLives.id = 'lives';
+  playerLives.innerHTML = `Lives: ${player.lives}`;
+  header.appendChild(playerLives);
+};
+
+// NEW - Game messages control
+createGameMsg = (root) => {
+
+  let gameMsg = document.createElement('div');
+  gameMsg.className = 'game-msg';
+  gameMsg.id = 'game-msg';
+  gameMsg.style.position = 'absolute';
+  gameMsg.style.left = 0;
+  gameMsg.style.top = 150;
+  gameMsg.style.display = 'none';
+  gameMsg.style.zIndex = 2000;
+
+  root.appendChild(gameMsg);
+}
+
+// NEW - Update game message on death
+updateGameMsg = (gameMsgDiv, msg) => {
+  gameMsgDiv.innerHTML = msg;
+  gameMsgDiv.style.display = 'flex';
+}
+
+// NEW - Continue game after losing a life
+continueGame = (lives) => {
+
+  // Grab game message element
+  let gameMsgDiv = document.querySelector('#game-msg');
+  gameMsgDiv.style.display = 'none';
+
+  // Update player lives (top right)
+  let playerLives = document.querySelector('#lives');
+  playerLives.innerHTML = `Lives: ${lives}`;
+
+  // Restart game loop
+  gameEngine.gameLoop();
+}

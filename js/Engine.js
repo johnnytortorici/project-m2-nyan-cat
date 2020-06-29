@@ -16,6 +16,12 @@ class Engine {
     this.enemies = [];
     // We add the background image to the game
     addBackground(this.root);
+
+    // NEW - Display lives
+    showPlayerLives(this.player);
+
+    // NEW - Create game message screen
+    createGameMsg(this.root);
   }
 
   // The gameLoop will run every few milliseconds. It does several things
@@ -57,8 +63,29 @@ class Engine {
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
     if (this.isPlayerDead()) {
-      window.alert('Game over');
-      return;
+      // Grab game message element
+      let gameMsgDiv = document.querySelector('#game-msg');
+      
+      if (this.player.lives > 1) {
+        // Update game message div
+        updateGameMsg(gameMsgDiv, 
+        `<h2>${this.player.lives} lives remaining</h2> \
+        //   <button onclick="continueGame(${this.player.lives})">Continue</button>`
+        );
+        return;
+      } else if (this.player.lives === 1) {
+        // Update game message div
+        updateGameMsg(gameMsgDiv, 
+          `<h2>${this.player.lives} life remaining</h2> \
+          //   <button onclick="continueGame(${this.player.lives})">Continue</button>`
+          );
+          return;
+      } else {
+          updateGameMsg(gameMsgDiv, 
+            `<h2>Game Over</h2> \
+            <button onclick="location.reload()">New Game</button>`);
+        return;
+      }
     }
 
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
@@ -68,6 +95,17 @@ class Engine {
   // This method is not implemented correctly, which is why
   // the burger never dies. In your exercises you will fix this method.
   isPlayerDead = () => {
+
+    // Detect collision between enemies and player
+    for (let i = 0; i < this.enemies.length; i++) {
+      let enemyBottomPosition = this.enemies[i].y + ENEMY_HEIGHT - 20; // Small buffer before collision
+      if (enemyBottomPosition > this.player.y && enemyBottomPosition < GAME_HEIGHT + 50 && this.enemies[i].x === this.player.x) {
+        this.player.lives--;
+        return true;
+      }
+    }
+    // If no collision is detected, keep returning false
     return false;
   };
+
 }

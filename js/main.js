@@ -18,6 +18,12 @@ const keydownHandler = (event) => {
   if (event.code === 'ArrowRight') {
     gameEngine.player.moveRight();
   }
+
+  // NEW - Capture keyboard spacebar click
+  // if (event.code === 'Space') {
+  //   gameEngine.player.shootEnemy();
+  //   event.preventDefault();
+  // }
 };
 
 // We add an event listener to document. document the ancestor of all DOM nodes in the DOM.

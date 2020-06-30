@@ -19,6 +19,12 @@ class Player {
     // NEW - Player lives
     this.lives = LIVES;
 
+    // NEW - Player score
+    this.score = 0;
+
+    // NEW - Store disk object
+    this.disk = undefined;
+
     // We create a DOM node. We will be updating the DOM node every time we move the player, so we store a reference to the
     // DOM node in a property.
     this.domElement = document.createElement('img');
@@ -48,18 +54,13 @@ class Player {
     this.domElement.style.left = `${this.x}px`;
   }
 
-  // // NEW - Allow player to shoot enemy
-  // shootEnemy() {
-  //   // Create the disk element and shoot towards enemy
-  //   this.disk = document.createElement('img');
-  //   this.disk.src = 'images/disk.png';
-  //   this.disk.style.position = 'absolute';
-  //   this.disk.style.left = `${this.x + 35}px`;
-  //   this.disk.style.top = ` ${this.y}px`;
-  //   this.disk.style.zIndex = '10';
-  //   gameEngine.root.appendChild(this.disk);
-
-  //   console.log('Shoot!');
-  // }
-  
+  // NEW - Allow player to shoot enemy
+  shootEnemy() {
+    // Create new instance of Disk only if no disk currently exists
+    let disk = document.querySelector('#disk');
+    if (disk === null) {
+      this.disk = new Disk()
+      this.disk.shoot(this.disk);
+    }
+  }
 }

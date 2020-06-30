@@ -87,38 +87,66 @@ showPlayerLives = (player) => {
   header.appendChild(playerLives);
 };
 
-// NEW - Game messages control
+// NEW - Display player score
+showPlayerScore = (player) => {
+  let header = document.querySelector('#header');
+  let playerScore = document.createElement('div');
+  playerScore.className = 'score';
+  playerScore.id = 'score';
+  playerScore.innerHTML = `${player.score}`;
+  header.appendChild(playerScore);
+};
+
+// ----- GAME MESSAGES CONTROL -----
 createGameMsg = (root) => {
 
   let gameMsg = document.createElement('div');
   gameMsg.className = 'game-msg';
   gameMsg.id = 'game-msg';
-  gameMsg.style.position = 'absolute';
-  gameMsg.style.left = 0;
-  gameMsg.style.top = 150;
-  gameMsg.style.display = 'none';
-  gameMsg.style.zIndex = 2000;
 
   root.appendChild(gameMsg);
 }
 
+// Start gameLoop
+startGame = () => {
+  // Start game loop
+  gameEngine.gameLoop();
+  // Start keydown listener
+  keydownStart();
+
+  let gameMsgDiv = document.querySelector('#game-msg');
+  gameMsgDiv.style.display = 'none';
+}
+
 // NEW - Update game message on death
 updateGameMsg = (gameMsgDiv, msg) => {
+  // Pause keydown functions during message
+  keydownStop();
   gameMsgDiv.innerHTML = msg;
   gameMsgDiv.style.display = 'flex';
 }
 
 // NEW - Continue game after losing a life
 continueGame = (lives) => {
-
   // Grab game message element
   let gameMsgDiv = document.querySelector('#game-msg');
   gameMsgDiv.style.display = 'none';
 
-  // Update player lives (top right)
+  // Update player lives
   let playerLives = document.querySelector('#lives');
   playerLives.innerHTML = `Lives: ${lives}`;
 
   // Restart game loop
   gameEngine.gameLoop();
+
+  // Re-enable keydown functions
+  keydownStart();
+}
+
+// NEW - Start and stop keydown listener
+keydownStart = () => {
+  document.addEventListener('keydown', keydownHandler);
+}
+keydownStop = () => {
+  document.removeEventListener('keydown', keydownHandler);
 }

@@ -17,7 +17,10 @@ class Engine {
     // We add the background image to the game
     addBackground(this.root);
 
-    // NEW - Display lives
+    // NEW - Display player score
+    showPlayerScore(this.player);
+
+    // NEW - Display player lives
     showPlayerLives(this.player);
 
     // NEW - Create game message screen
@@ -70,19 +73,20 @@ class Engine {
         // Update game message div
         updateGameMsg(gameMsgDiv, 
         `<h2>${this.player.lives} lives remaining</h2> \
-        //   <button onclick="continueGame(${this.player.lives})">Continue</button>`
+        <button onclick="continueGame(${this.player.lives})">Continue</button>`
         );
         return;
       } else if (this.player.lives === 1) {
         // Update game message div
         updateGameMsg(gameMsgDiv, 
           `<h2>${this.player.lives} life remaining</h2> \
-          //   <button onclick="continueGame(${this.player.lives})">Continue</button>`
+          <button onclick="continueGame(${this.player.lives})">Continue</button>`
           );
           return;
       } else {
           updateGameMsg(gameMsgDiv, 
             `<h2>Game Over</h2> \
+            <p>Final Score: ${this.player.score}</p>
             <button onclick="location.reload()">New Game</button>`);
         return;
       }
@@ -108,4 +112,18 @@ class Engine {
     return false;
   };
 
+  isEnemyHit = (diskX, diskY) => {
+    // For each enemy
+    for (let i = 0; i < this.enemies.length; i++) {
+      let enemyBottomPosition = this.enemies[i].y + ENEMY_HEIGHT - 20; // Small buffer before collision
+      let enemyLeftPosition = this.enemies[i].x + 35; // Add 35 since disc is located 35px to the left
+      // Detect collision
+      if (enemyBottomPosition > diskY && enemyBottomPosition < GAME_HEIGHT - 100 && enemyLeftPosition === diskX) {
+        // Destroy enemy
+        this.enemies[i].killEnemy();
+        // Destroy disk
+        this.player.disk.destroyDisk();
+      }
+    }
+  }
 }

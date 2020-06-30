@@ -42,6 +42,7 @@ class Enemy {
     this.domElement.style.left = `${this.x}px`;
     this.domElement.style.top = `${this.y}px`;
     this.domElement.style.zIndex = 5;
+    this.hasBeenDeleted = false;
 
     // Show that the user can actually see the img DOM node, we append it to the root DOM node.
     theRoot.appendChild(this.domElement);
@@ -66,6 +67,20 @@ class Enemy {
       this.root.removeChild(this.domElement);
 
       this.destroyed = true;
+    }
+  }
+
+  // NEW - Kill enemy
+  killEnemy() {
+    if(this.destroyed === false) {
+      this.hasBeenDeleted = true;
+    this.root.removeChild(this.domElement);
+    this.destroyed = true;
+    gameEngine.player.score += 100;
+    
+    // Update player score
+    let playerScore = document.querySelector('#score');
+    playerScore.innerHTML = `${gameEngine.player.score}`;
     }
   }
 }

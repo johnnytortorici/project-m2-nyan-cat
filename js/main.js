@@ -20,14 +20,30 @@ const keydownHandler = (event) => {
   }
 
   // NEW - Capture keyboard spacebar click
-  // if (event.code === 'Space') {
-  //   gameEngine.player.shootEnemy();
-  //   event.preventDefault();
-  // }
+  if (event.code === 'Space') {
+    gameEngine.player.shootEnemy();
+    event.preventDefault();
+  }
 };
 
 // We add an event listener to document. document the ancestor of all DOM nodes in the DOM.
-document.addEventListener('keydown', keydownHandler);
+// let keydown = document.addEventListener('keydown', keydownHandler);
 
-// We call the gameLoop method to start the game
-gameEngine.gameLoop();
+// ----- START GAME SCREEN -----
+
+// Grab game message element
+let gameMsgDiv = document.querySelector('#game-msg');
+// Add Start Game text
+updateGameMsg(gameMsgDiv, 
+  `<h2>Welcome to TRON v1.0</h2> \
+  <ul class="controls">
+    <li>Keyboard-Left</li> \
+    <li><i class="far fa-arrow-alt-circle-left fa-2x"></i></li> \
+    <li>Keyboard-Right</li> \
+    <li><i class="far fa-arrow-alt-circle-right fa-2x"></i></li> \
+    <li>Spacebar-Shoot \
+    <li><i class="far fa-keyboard fa-2x"></i></li> \
+  </ul> \
+  <button onclick="startGame()">Start Game</button>`);
+
+// gameEngine.gameLoop();

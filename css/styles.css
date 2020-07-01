@@ -42,6 +42,9 @@ h1 {
     border-left: 1px solid #01FFFF;
     box-shadow: 0px 0px 5px #01FFFF inset;
 }
+.player {
+    transition: all 0.25s ease;
+}
 .game-msg {
     height: 250px;
     width: 100%;

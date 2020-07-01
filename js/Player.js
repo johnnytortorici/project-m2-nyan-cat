@@ -29,6 +29,7 @@ class Player {
     // DOM node in a property.
     this.domElement = document.createElement('img');
     this.domElement.src = 'images/player.png';
+    this.domElement.className = 'player';
     this.domElement.style.position = 'absolute';
     this.domElement.style.left = `${this.x}px`;
     this.domElement.style.top = ` ${y}px`;
@@ -61,6 +62,11 @@ class Player {
     if (disk === null) {
       this.disk = new Disk()
       this.disk.shoot(this.disk);
+
+      // Disk audio
+      let diskSound = new Audio('audio/disk.mp3');
+      diskSound.play();
+      diskSound.volume = 0.1;
     }
   }
 }

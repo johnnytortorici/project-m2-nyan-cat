@@ -57,9 +57,11 @@ class Disk {
 
             // Once disk arrives at top, remove disk element from DOM
             if (disk.y < 0) {
-                gameEngine.root.removeChild(disk.domElement);
-                clearInterval(moveDisk);
-                disk.destroyed = true;
+                if (disk.destroyed === false) {
+                    gameEngine.root.removeChild(disk.domElement);
+                    clearInterval(moveDisk);
+                    disk.destroyed = true;
+                }
             }
         }, 10);
     }

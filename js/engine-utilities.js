@@ -113,6 +113,11 @@ startGame = () => {
   gameEngine.gameLoop();
   // Start keydown listener
   keydownStart();
+  // Start game music
+  let gameMusic = new Audio('audio/music.wav');
+  gameMusic.play();
+  gameMusic.loop = true;
+  gameMusic.volume = 0.1;
 
   let gameMsgDiv = document.querySelector('#game-msg');
   gameMsgDiv.style.display = 'none';
